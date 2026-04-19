@@ -29,6 +29,10 @@ def generate_data(seed):
     timestamps : ndarray of shape (200,)
         Sorted timestamps uniformly distributed from 0 to 10 seconds.
     """
+
+# Create a function generate_data(seed) that returns sensor_a, sensor_b,
+# and timestamps arrays with the same parameters as in the notebook.
+# Use NumPy-style docstring with Parameters and Returns sections.
     rng = np.random.default_rng(seed)
     n_readings = 200
     sensor_a = rng.normal(loc=25.0, scale=3.0, size=n_readings)
@@ -36,6 +40,9 @@ def generate_data(seed):
     timestamps = np.sort(rng.uniform(0.0, 10.0, size=n_readings))
     return sensor_a, sensor_b, timestamps
 
+# Create plot_scatter(sensor_a, sensor_b, timestamps, ax) that draws
+# the scatter plot from the notebook onto the given Axes object.
+# NumPy-style docstring. Modifies ax in place, returns None.
 def plot_scatter(sensor_a, sensor_b, timestamps, ax):
     """Plot scatter plot of sensor temperatures vs time on given Axes.
 
@@ -63,6 +70,10 @@ def plot_scatter(sensor_a, sensor_b, timestamps, ax):
     ax.legend()
     ax.grid(alpha=0.3)
 
+# Create plot_histogram(sensor_a, sensor_b, ax) that draws an overlaid histogram
+# of both sensors using 30 bins and alpha=0.5.
+# Add vertical dashed lines for each sensor mean.
+# Include legend and labels.
 def plot_histogram(sensor_a, sensor_b, ax):
     """Plot overlaid histogram of sensor temperature distributions on given Axes.
 
@@ -91,3 +102,33 @@ def plot_histogram(sensor_a, sensor_b, ax):
     ax.set_ylabel('Frequency')
     ax.legend()
     ax.grid(alpha=0.3)
+
+def plot_boxplot(sensor_a, sensor_b, ax):
+    """Plot side-by-side boxplot comparing sensor temperature distributions on given Axes.
+
+    Parameters
+    ----------
+    sensor_a : array_like
+        Temperature readings from Sensor A.
+    sensor_b : array_like
+        Temperature readings from Sensor B.
+    ax : matplotlib.axes.Axes
+        The Axes object to plot on.
+
+    Returns
+    -------
+    None
+        Modifies ax in place.
+    """
+    ax.boxplot([sensor_a, sensor_b], labels=['Sensor A', 'Sensor B'], patch_artist=True,
+               boxprops=dict(facecolor='lightgray', color='black'),
+               medianprops=dict(color='red'),
+               whiskerprops=dict(color='black'),
+               capprops=dict(color='black'))
+    overall_mean = np.mean(np.concatenate([sensor_a, sensor_b]))
+    ax.axhline(overall_mean, color='blue', linestyle='--', linewidth=1.5, label='Overall mean')
+    ax.set_xlabel('Sensor')
+    ax.set_ylabel('Temperature (deg C)')
+    ax.set_title('Box Plot Comparison of Sensor Temperature Distributions')
+    ax.legend()
+    ax.grid(axis='y', alpha=0.3)
