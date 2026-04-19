@@ -103,6 +103,8 @@ def plot_histogram(sensor_a, sensor_b, ax):
     ax.legend()
     ax.grid(alpha=0.3)
 
+# Create plot_boxplot(sensor_a, sensor_b, ax) that draws a side-by-side boxplot comparing both sensors. 
+# Add labels and a horizontal line at combined mean.
 def plot_boxplot(sensor_a, sensor_b, ax):
     """Plot side-by-side boxplot comparing sensor temperature distributions on given Axes.
 
@@ -132,3 +134,30 @@ def plot_boxplot(sensor_a, sensor_b, ax):
     ax.set_title('Box Plot Comparison of Sensor Temperature Distributions')
     ax.legend()
     ax.grid(axis='y', alpha=0.3)
+
+def main():
+    """Generate sensor data and create publication-quality plots.
+
+    Generates synthetic temperature data, creates a 1x3 subplot figure
+    with scatter, histogram, and boxplot visualizations, and saves
+    the figure as a PNG file.
+
+    Returns
+    -------
+    None
+    """
+    seed = 1234  # Replace with your actual last 4 Drexel ID digits
+    sensor_a, sensor_b, timestamps = generate_data(seed)
+
+    fig, axes = plt.subplots(1, 3, figsize=(18, 5))
+
+    plot_scatter(sensor_a, sensor_b, timestamps, axes[0])
+    plot_histogram(sensor_a, sensor_b, axes[1])
+    plot_boxplot(sensor_a, sensor_b, axes[2])
+
+    plt.tight_layout()
+    plt.savefig('sensor_analysis.png', dpi=150, bbox_inches='tight')
+    plt.close(fig)
+
+if __name__ == '__main__':
+    main()
