@@ -10,6 +10,7 @@ Usage
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 def generate_data(seed):
     """Generate synthetic temperature sensor data.
@@ -34,3 +35,30 @@ def generate_data(seed):
     sensor_b = rng.normal(loc=27.0, scale=4.5, size=n_readings)
     timestamps = np.sort(rng.uniform(0.0, 10.0, size=n_readings))
     return sensor_a, sensor_b, timestamps
+
+def plot_scatter(sensor_a, sensor_b, timestamps, ax):
+    """Plot scatter plot of sensor temperatures vs time on given Axes.
+
+    Parameters
+    ----------
+    sensor_a : array_like
+        Temperature readings from Sensor A.
+    sensor_b : array_like
+        Temperature readings from Sensor B.
+    timestamps : array_like
+        Time stamps for the readings.
+    ax : matplotlib.axes.Axes
+        The Axes object to plot on.
+
+    Returns
+    -------
+    None
+        Modifies ax in place.
+    """
+    ax.scatter(timestamps, sensor_a, c="tab:blue", alpha=0.7, label="Sensor A")
+    ax.scatter(timestamps, sensor_b, c="tab:orange", alpha=0.7, label="Sensor B")
+    ax.set_title("Sensor Temperatures vs Time")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Temperature (°C)")
+    ax.legend()
+    ax.grid(alpha=0.3)
